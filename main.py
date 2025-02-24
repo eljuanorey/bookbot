@@ -1,28 +1,18 @@
+from stats import counting_characters, counting_words
+import sys
 
-path_to_file = 'books/frankenstein.txt'
+path_to_file = sys.argv[1]
 file_contents = ''
 alfa_dict = {char: None for char in "abcdefghijklmnopqrstuvwxyz"}
+
+if len(sys.argv) < 2:
+    print('Usage: python3 main.py <path_to_book>')
+    sys.exit(1)
 
 with open(path_to_file) as f:
     file_contents = f.read()
 
 words = file_contents.split()
-
-
-def counting_words(prep_file):
-    return (len(prep_file))
-
-def counting_characters():
-    lower_contents = file_contents.lower()
-    count_dic = {}
-
-    for char in lower_contents:
-        if char in count_dic:
-            pass
-        elif char in alfa_dict:
-            count_dic.update({char:lower_contents.count(char)})
-    
-    return count_dic
 
 def sort_key(item):
     return item[1]
@@ -32,11 +22,7 @@ def report(char_count):
     char_dic_sorted = sorted(char_dic.items(),reverse=True, key=sort_key)
 
     for item in char_dic_sorted:
-        for case in item:
-            if case in alfa_dict:
-                print("'" + str(case) + "'")
-            else:
-                print(case)
+        print(item[0] + ': ' + str(item[1]))
 
-char_count = counting_characters()
+char_count = counting_characters(file_contents, alfa_dict)
 report(char_count)
